@@ -4,11 +4,15 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
 const app = express();
+
+// setup enviroment variables
+dotenv.config();
 
 // DB setup
 const mongoDB = process.env.DB_URI;
