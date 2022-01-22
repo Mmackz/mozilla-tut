@@ -6,6 +6,7 @@ exports.bookinstance_list = (req, res, next) => {
       .populate("book")
       .exec((err, data) => {
          if (err) console.error(err);
+         data.forEach(item => console.log(item.status))
          res.render("bookinstance_list", {
             title: "Book Instance List",
             bookinstance_list: data
