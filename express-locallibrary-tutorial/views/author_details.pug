@@ -1,0 +1,19 @@
+extends layout
+
+block content
+
+   h1= title
+   hr
+   h2 Author: #{author.name}
+   p #{author.lifespan}
+
+   div.ml-3.mt-3
+      h4 Books
+      dl
+         each book in author_books
+            dt
+               a(href=book.url) #{book.title}
+            dd #{book.summary}
+
+         else
+            p This author has no books.
