@@ -1,4 +1,3 @@
-const { nextTick } = require("async");
 const Author = require("../models/author");
 
 // Display list of all Authors
