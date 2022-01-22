@@ -20,7 +20,7 @@ const BookSchema = new Schema({
       type: String,
       required: true
    },
-   genre: [{ type: Schema.Types.ObjectId, ref: "genre" }]
+   genre: [{ type: Schema.Types.ObjectId, ref: "Genre" }]
 });
 
 BookSchema.virtual("url").get(function () {

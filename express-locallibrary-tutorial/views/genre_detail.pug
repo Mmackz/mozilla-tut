@@ -1,0 +1,19 @@
+extends layout
+
+block content
+
+   h1= title
+   hr
+   h2 #{genre.name}
+
+   div.ml-3.mt-3
+      h4 Books
+
+      dl
+         each book in genre_books
+            dt
+               a(href=book.url) #{book.title}
+            dd #{book.summary}
+
+         else
+            p This genre has no books.
