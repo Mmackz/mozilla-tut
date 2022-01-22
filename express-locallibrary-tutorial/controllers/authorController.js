@@ -101,7 +101,6 @@ exports.author_delete_get = (req, res, next) => {
          if (data.author == null) {
             res.redirect("/catalog/authors");
          }
-         // data.author ?? res.redirect("/catalog/authors")
          res.render("author_delete", {
             title: "Delete Author",
             author: data.author,
@@ -115,14 +114,14 @@ exports.author_delete_get = (req, res, next) => {
 exports.author_delete_post = (req, res, next) => {
    async.parallel(
       {
-         author: cb => {
+         author: (cb) => {
             Author.findById(req.body.authorid).exec(cb);
          },
-         authors_books: cb => {
+         authors_books: (cb) => {
             Book.find({ author: req.body.authorid }).exec(cb);
          }
       },
-      function (err, data) {
+      (err, data) => {
          if (err) {
             return next(err);
          }
