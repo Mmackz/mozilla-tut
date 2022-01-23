@@ -168,7 +168,7 @@ exports.genre_update_post = [
       if (!errors.isEmpty()) {
          // There are errors. Render the form again with sanitized values/error messages.
          res.render("genre_form", {
-            title: "Create Genre",
+            title: "Update Genre",
             genre: genre,
             errors: errors.array()
          });
