@@ -204,12 +204,12 @@ exports.book_update_get = (req, res, next) => {
          ) {
             for (
                let book_genres = 0;
-               book_genres < data.genres.length;
+               book_genres < data.book.genre.length;
                book_genres++
             ) {
                if (
                   data.genres[all_genres]._id.toString() ===
-                  data.genres[book_genres]._id.toString()
+                  data.book.genre[book_genres]._id.toString()
                ) {
                   data.genres[all_genres].checked = "true";
                }
@@ -297,16 +297,11 @@ exports.book_update_post = [
          return;
       } else {
          // Data from form is valid. Update the record.
-         Book.findByIdAndUpdate(
-            req.params.id,
-            book,
-            {},
-            function (err, data) {
-               if (err) return next(err);
-               // Successful - redirect to book detail page.
-               res.redirect(data.url);
-            }
-         );
+         Book.findByIdAndUpdate(req.params.id, book, {}, function (err, data) {
+            if (err) return next(err);
+            // Successful - redirect to book detail page.
+            res.redirect(data.url);
+         });
       }
    }
 ];

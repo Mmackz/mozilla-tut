@@ -107,8 +107,7 @@ exports.genre_delete_post = (req, res, next) => {
    async.parallel(
       {
          genre: (cb) => Genre.findById(req.body.genre_id).exec(cb),
-         authors_books: (cb) =>
-            Book.find({ genre: req.body.genre_id }).exec(cb)
+         authors_books: (cb) => Book.find({ genre: req.body.genre_id }).exec(cb)
       },
       (err, data) => {
          if (err) return next(err);
@@ -134,10 +133,42 @@ exports.genre_delete_post = (req, res, next) => {
 
 // Display Genre update form on GET
 exports.genre_update_get = (req, res) => {
-   res.send("NOT IMPLEMENTED: Genre update GET");
+   res.render("genre_form", { title: "Update Genre" });
 };
 
 // Handle Genre update on POST
-exports.genre_update_post = (req, res) => {
-   res.send("NOT IMPLEMENTED: Genre update POST");
-};
+exports.genre_update_post = [
+   // Validate and sanitize the name field.
+   body("name", "Genre name required").trim().isLength({ min: 2 }).escape(),
+   body("name", "Genre already in library").trim().custom(name => {
+      Genre.findOne({name}, (err, data) => {
+         if (err) return new Error(err);
+         if (data !== null) {
+            return new Error()
+         }
+         console.log(data)
+         return true
+      })
+   }),
+   (req, res, next) => {
+      const errors = validationResult(req);
+      const genre = new Genre({
+         name: req.body.name,
+         _id: req.params.id
+      });
+
+      if (!errors.isEmpty()) {
+         // There are errors. Render the form again with sanitized values/error messages.
+         res.render("genre_form", {
+            title: "Create Genre",
+            genre: genre,
+            errors: errors.array()
+         });
+         return;
+      }
+      Genre.findByIdAndUpdate(req.params.id, genre, {}, (err, data) => {
+         if (err) return next(err);
+         res.redirect(genre.url);
+      });
+   }
+];
