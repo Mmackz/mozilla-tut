@@ -132,24 +132,32 @@ exports.genre_delete_post = (req, res, next) => {
 };
 
 // Display Genre update form on GET
-exports.genre_update_get = (req, res) => {
-   res.render("genre_form", { title: "Update Genre" });
+exports.genre_update_get = (req, res, next) => {
+   Genre.findById(req.params.id, (err, data) => {
+      if (err) return next(err);
+      res.render("genre_form", { title: "Update Genre", genre: data });
+   });
 };
 
 // Handle Genre update on POST
 exports.genre_update_post = [
-   // Validate and sanitize the name field.
-   body("name", "Genre name required").trim().isLength({ min: 2 }).escape(),
-   body("name", "Genre already in library").trim().custom(name => {
-      Genre.findOne({name}, (err, data) => {
-         if (err) return new Error(err);
-         if (data !== null) {
-            return new Error()
-         }
-         console.log(data)
-         return true
+   // Validate and sanitize the genre name field.
+   body("name", "Genre name required")
+      .trim()
+      .isLength({ min: 1 })
+      .custom((name) => {
+         return new Promise((resolve, reject) => {
+            Genre.findOne({ name }, (err, data) => {
+               if (err) {
+                  reject(err);
+               }
+               data == null
+                  ? resolve()
+                  : reject("Genre already exists in library");
+            });
+         });
       })
-   }),
+      .escape(),
    (req, res, next) => {
       const errors = validationResult(req);
       const genre = new Genre({
