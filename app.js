@@ -1,7 +1,9 @@
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
+const compression = require("compression");
 const cookieParser = require("cookie-parser");
+const helmet = require("helmet");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
@@ -26,6 +28,8 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
 app.use(logger("dev"));
+app.use(helmet());
+app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
