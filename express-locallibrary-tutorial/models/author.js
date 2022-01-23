@@ -30,18 +30,26 @@ AuthorSchema.virtual("name").get(function () {
 });
 
 AuthorSchema.virtual("bday_formatted").get(function () {
-   return DateTime.fromJSDate(this.date_of_birth).toUTC().toFormat("yyyy-MM-dd")
-})
+   return DateTime.fromJSDate(this.date_of_birth)
+      .toUTC()
+      .toFormat("yyyy-MM-dd");
+});
 
 AuthorSchema.virtual("death_formatted").get(function () {
-   return DateTime.fromJSDate(this.date_of_death).toUTC().toFormat("yyyy-MM-dd")
-})
+   return DateTime.fromJSDate(this.date_of_death)
+      .toUTC()
+      .toFormat("yyyy-MM-dd");
+});
 
 AuthorSchema.virtual("lifespan").get(function () {
    return this.date_of_birth
-      ? `${DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED)}${
+      ? `${DateTime.fromJSDate(this.date_of_birth).toLocaleString(
+           DateTime.DATE_MED
+        )}${
            this.date_of_death
-              ? ` : ${DateTime.fromJSDate(this.date_of_death).toLocaleString(DateTime.DATE_MED)}`
+              ? ` : ${DateTime.fromJSDate(this.date_of_death).toLocaleString(
+                   DateTime.DATE_MED
+                )}`
               : ""
         }`
       : "";
