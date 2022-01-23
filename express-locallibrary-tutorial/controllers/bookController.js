@@ -5,6 +5,7 @@ const Genre = require("../models/genre");
 const BookInstance = require("../models/bookinstance");
 
 const async = require("async");
+const { redirect } = require("express/lib/response");
 
 exports.index = function (req, res) {
    async.parallel(
@@ -168,13 +169,50 @@ exports.book_create_post = [
 ];
 
 // Display book delete form on GET
-exports.book_delete_get = (req, res) => {
-   res.send("NOT IMPLEMENTED: Book delete GET");
+exports.book_delete_get = (req, res, next) => {
+   async.parallel(
+      {
+         book: (cb) => Book.findById(req.params.id).exec(cb),
+         book_instances: (cb) =>
+            BookInstance.find({ book: req.params.id }).exec(cb)
+      },
+      (err, data) => {
+         if (err) return next(err);
+         if (data.book === null) {
+            res.redirect("/catalog/books");
+         }
+         res.render("book_delete", {
+            title: "Delete Book",
+            book: data.book,
+            book_instances: data.book_instances
+         });
+      }
+   );
 };
 
 // Handle book delete on POST
-exports.book_delete_post = (req, res) => {
-   res.send("NOT IMPLEMENTED: Book delete POST");
+exports.book_delete_post = (req, res, next) => {
+   async.parallel(
+      {
+         book: (cb) => Book.findById(req.body.bookid).exec(cb),
+         book_instances: (cb) =>
+            BookInstance.find({ book: req.body.bookid }).exec(cb)
+      },
+      (err, data) => {
+         if (err) return next(err);
+         if (data.book_instances.length > 0) {
+            res.render("book_delete", {
+               title: "Delete Book",
+               book: data.book,
+               book_instances: data.book_instances
+            });
+         }
+         Book.findByIdAndRemove(req.body.bookid, (err) => {
+            if (err) return next(err);
+            res.redirect("/catalog/books");
+         });
+      }
+   );
 };
 
 // Display book update form on GET
