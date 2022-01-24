@@ -1,25 +1,26 @@
 {
-  "name": "express-locallibrary-tutorial",
-  "version": "0.0.0",
-  "engines": {
-     "node": "17.4.0"
-  },
-  "private": true,
-  "scripts": {
-    "start": "node bin/www"
-  },
-  "dependencies": {
-    "async": "^3.2.3",
-    "compression": "^1.7.4",
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "express": "~4.16.1",
-    "express-validator": "^6.14.0",
-    "helmet": "^5.0.2",
-    "http-errors": "~1.6.3",
-    "luxon": "^2.3.0",
-    "mongoose": "^6.1.7",
-    "morgan": "~1.9.1",
-    "pug": "3.0.2"
-  }
+   "name": "express-locallibrary-tutorial",
+   "version": "0.0.0",
+   "engines": {
+      "node": "17.4.0"
+   },
+   "private": true,
+   "scripts": {
+      "start": "node bin/www"
+   },
+   "dependencies": {
+      "async": "^3.2.3",
+      "compression": "^1.7.4",
+      "cookie-parser": "~1.4.4",
+      "debug": "~2.6.9",
+      "dotenv": "^14.2.0",
+      "express": "~4.16.1",
+      "express-validator": "^6.14.0",
+      "helmet": "^5.0.2",
+      "http-errors": "~1.6.3",
+      "luxon": "^2.3.0",
+      "mongoose": "^6.1.7",
+      "morgan": "~1.9.1",
+      "pug": "3.0.2"
+   }
 }
